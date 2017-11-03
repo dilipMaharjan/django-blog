@@ -1,0 +1,3 @@
+*.pyc
+*django19blog/.pyc
+*posts/migrations/*.py
