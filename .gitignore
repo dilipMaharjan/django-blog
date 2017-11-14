@@ -1,2 +1,4 @@
 *.pyc
 *posts/migrations
+/.vscode/
+/.idea/

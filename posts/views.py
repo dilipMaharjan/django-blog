@@ -1,21 +1,23 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 
-from .models import Post
 from .form import PostForm
+from .models import Post
+
 
 def post_create(request):
-    form=PostForm(request.POST or None)
+    form = PostForm(request.POST or None)
     if form.is_valid():
-        instance=form.save(commit= False)
+        instance = form.save(commit=False)
         instance.save()
-        messages.success(request,"Post Created.")
+        messages.success(request, "Post Created.")
         return HttpResponseRedirect(instance.get_absolute_url())
     else:
-        messages.error(request,"Post Creation Failed.")
+        messages.error(request, "Post Creation Failed.")
 
-    return render(request,"posts/form.html",{"form":form})
+    return render(request, "posts/form.html", {"form": form})
+
 
 def post_detail(request, id=None):
     post = get_object_or_404(Post, id=id)
@@ -25,21 +27,21 @@ def post_detail(request, id=None):
 def post_list(request):
     post_list = Post.objects.all()
     return render(request, "posts/index.html", {
-                  "title": "List", "post_list": post_list},
-                  )
+        "title": "List", "post_list": post_list})
 
 
-def post_update(request,id=None):
-    instance=get_object_or_404(Post,id=id)
-    form=PostForm(request.POST or None,instance=instance)
+def post_update(request, id=None):
+    instance = get_object_or_404(Post, id=id)
+    form = PostForm(request.POST or None, instance=instance)
     if form.is_valid():
-        instance=form.save(commit= False)
+        instance = form.save(commit=False)
         instance.save()
-        messages.success(request,"Post Updated.")
+        messages.success(request, "Post Updated.")
         return HttpResponseRedirect(instance.get_absolute_url())
     else:
-        messages.error(request,"Post update Failed.")
-    return render(request,"posts/form.html",{"form":form})
+        messages.error(request, "Post update Failed.")
+    return render(request, "posts/form.html", {"form": form})
+
 
 def post_delete(request):
     return HttpResponse("Delete")
