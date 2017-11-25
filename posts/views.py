@@ -8,7 +8,7 @@ from .models import Post
 
 
 def post_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
@@ -29,7 +29,6 @@ def post_list(request):
     post_list = Post.objects.all()
 
     paginator = Paginator(post_list, 2)  # Show 25 contacts per page
-
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -46,7 +45,7 @@ def post_list(request):
 
 def post_update(request, id=None):
     instance = get_object_or_404(Post, id=id)
-    form = PostForm(request.POST or None, instance=instance)
+    form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()

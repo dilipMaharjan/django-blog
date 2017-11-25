@@ -1,10 +1,17 @@
-{% extends "./../base.html" %}
+{% extends "./base.html" %}
 {% block content %}
 <h1>Post List</h1>
 <div class="row">
+    <form method="get" action="">
+        <input type="text" name="q" placeholder="Search Criteria" value="{{request.GET.q}}">
+        <input type="submit" value="Search">
+    </form>
     {% for post in post_list %}
     <div class="col-sm-6 col-sm-offset-3">
         <div class="thumbnail">
+            {% if post.image %}
+            <img src="{{post.image.url}}" class="img-resposive" width="500" height="200"/>
+            {% endif %}
             <div class="caption">
                 <h3><a href='{{post.get_absolute_url}}'>{{post.title}}</a>
                     <small>{{post.timestamp|timesince}}</small>
